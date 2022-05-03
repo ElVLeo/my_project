@@ -548,8 +548,8 @@ type_image_path = ["imagehash", "pillow"]
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.9"
-content-hash = "126495c8f1276e0e480913f4fc93d293a10c36f6944fc9ad581b4b2b22829341"
+python-versions = "^3.9.0"
+content-hash = "123f7fe15414cd791ff8276485b996b60d3fd863fd83386b79f29401ae0a58d7"
 
 [metadata.files]
 attrs = [
