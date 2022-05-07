@@ -12,6 +12,7 @@ def get_dataset(
     dataset = pd.read_csv(csv_path)
     click.echo(f"Dataset shape: {dataset.shape}.")
     features = dataset.drop("Cover_Type", axis=1)
+    features = dataset.drop("Id", axis=1)
     target = dataset["Cover_Type"]
     features_train, features_val, target_train, target_val = train_test_split(
         features, target, test_size=test_split_ratio, random_state=random_state
