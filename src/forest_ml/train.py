@@ -44,15 +44,15 @@ from .pipeline import create_pipeline
     show_default=True,
 )
 @click.option(
-    "--max-iter",
+    "--n_estimators",
     default=100,
     type=int,
     show_default=True,
 )
 @click.option(
-    "--logreg-c",
-    default=1.0,
-    type=float,
+    "--max_depth",
+    default=None,
+    type=int,
     show_default=True,
 )
 def train(
@@ -61,8 +61,8 @@ def train(
     random_state: int,
     test_split_ratio: float,
     use_scaler: bool,
-    max_iter: int,
-    logreg_c: float,
+    n_estimators: int,
+    max_depth: int,
 ) -> None:
     features_train, features_val, target_train, target_val = get_dataset(
         dataset_path,
@@ -70,12 +70,12 @@ def train(
         test_split_ratio,
     )
     with mlflow.start_run():
-        pipeline = create_pipeline(use_scaler, max_iter, logreg_c, random_state)
+        pipeline = create_pipeline(use_scaler, n_estimators, max_depth)
         pipeline.fit(features_train, target_train)
         accuracy = accuracy_score(target_val, pipeline.predict(features_val))
         mlflow.log_param("use_scaler", use_scaler)
-        mlflow.log_param("max_iter", max_iter)
-        mlflow.log_param("logreg_c", logreg_c)
+        mlflow.log_param("n_estimators", n_estimators)
+        mlflow.log_param("max_depth", max_depth)
         mlflow.log_metric("accuracy", accuracy)
         click.echo(f"Accuracy: {accuracy}.")
         dump(pipeline, save_model_path)
