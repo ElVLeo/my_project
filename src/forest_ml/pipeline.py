@@ -1,10 +1,10 @@
-from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
 
 def create_pipeline(
-    use_scaler: bool, max_iter: int, logreg_C: float, random_state: int
+    use_scaler: bool, n_estimators: int, max_depth: int
 ) -> Pipeline:
     pipeline_steps = []
     if use_scaler:
@@ -12,8 +12,8 @@ def create_pipeline(
     pipeline_steps.append(
         (
             "classifier",
-            LogisticRegression(
-                random_state=random_state, max_iter=max_iter, C=logreg_C
+            RandomForestClassifier(
+                n_estimators=n_estimators, max_depth=max_depth
             ),
         )
     )
