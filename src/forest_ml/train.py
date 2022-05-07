@@ -50,6 +50,12 @@ from .pipeline import create_pipeline
     show_default=True,
 )
 @click.option(
+    "--criterion",
+    default='gini',
+    type=click.Choice(['gini', 'entropy']),
+    show_default=True,
+)
+@click.option(
     "--max_depth",
     default=None,
     type=int,
@@ -62,6 +68,7 @@ def train(
     test_split_ratio: float,
     use_scaler: bool,
     n_estimators: int,
+    criterion:str,
     max_depth: int,
 ) -> None:
     features_train, features_val, target_train, target_val = get_dataset(
@@ -70,11 +77,12 @@ def train(
         test_split_ratio,
     )
     with mlflow.start_run():
-        pipeline = create_pipeline(use_scaler, n_estimators, max_depth)
+        pipeline = create_pipeline(use_scaler, n_estimators, criterion, max_depth)
         pipeline.fit(features_train, target_train)
         accuracy = accuracy_score(target_val, pipeline.predict(features_val))
         mlflow.log_param("use_scaler", use_scaler)
         mlflow.log_param("n_estimators", n_estimators)
+        mlflow.log_param("criterion", criterion)
         mlflow.log_param("max_depth", max_depth)
         mlflow.log_metric("accuracy", accuracy)
         click.echo(f"Accuracy: {accuracy}.")
