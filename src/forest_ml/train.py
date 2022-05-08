@@ -68,7 +68,7 @@ def train(
     test_split_ratio: float,
     use_scaler: bool,
     n_estimators: int,
-    criterion:str,
+    criterion: str,
     max_depth: int,
 ) -> None:
     features_train, features_val, target_train, target_val = get_dataset(
