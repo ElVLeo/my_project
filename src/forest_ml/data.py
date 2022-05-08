@@ -14,5 +14,5 @@ def get_dataset(
     click.echo(f"Features shape: {features.shape}.")
     target = dataset['Cover_Type']
     click.echo(f"Target shape: {target.shape}.")
-    )
+
     return features, target

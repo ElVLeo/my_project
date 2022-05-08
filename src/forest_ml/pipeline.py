@@ -4,7 +4,7 @@ from sklearn.preprocessing import StandardScaler
 
 
 def create_pipeline(
-    use_scaler: bool, n_estimators: int, criterion:str, max_depth: int
+    use_scaler: bool, n_estimators: int, criterion: str, max_depth: int
 ) -> Pipeline:
     pipeline_steps = []
     if use_scaler:
