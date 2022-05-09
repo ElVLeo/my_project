@@ -19,6 +19,7 @@ flake8 = "^4.0.1"
 [tool.poetry.scripts]
 eda = "forest_ml.profiling:profile"
 train = "forest_ml.train:train"
+train_2 = "forest_ml.train_2:train"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
