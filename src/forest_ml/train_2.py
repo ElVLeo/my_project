@@ -78,6 +78,7 @@ def train(
         precision_micro = mean(precision_micros)
         f1s_weighted = cross_val_score(pipeline, features, target, cv=cv, scoring='f1_weighted')
         f1_weighted = mean(f1s_weighted)
+        mlflow.log_param("model_name", 'KNeighborsClassifier')
         mlflow.log_param("use_scaler", use_scaler)
         mlflow.log_param("n_neighbors", n_neighbors)
         mlflow.log_param("weights", weights)
