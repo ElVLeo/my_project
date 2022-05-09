@@ -28,9 +28,9 @@ from .pipeline_2 import create_pipeline
     show_default=True,
 )
 @click.option(
-    "--use-scaler",
-    default='StandardScaling',
-    type=click.Choice(['StandardScaling', 'MinMaxScaling']),
+    "--feature_engineering",
+    default=None,
+    type=click.Choice(['Scaling', 'Selecting']),
     show_default=True,
 )
 @click.option(
@@ -60,7 +60,7 @@ from .pipeline_2 import create_pipeline
 def train(
     dataset_path: Path,
     save_model_path: Path,
-    use_scaler: str,
+    feature_engineering: str,
     n_neighbors: int,
     weights: str,
     leaf_size: int,
@@ -70,7 +70,7 @@ def train(
         dataset_path,
     )
     with mlflow.start_run():
-        pipeline = create_pipeline(use_scaler, n_neighbors, weights, leaf_size, n_jobs)
+        pipeline = create_pipeline(feature_engineering, n_neighbors, weights, leaf_size, n_jobs)
         cv = KFold(n_splits=10)
         accuracies = cross_val_score(pipeline, features, target, cv=cv, scoring='accuracy')
         accuracy = mean(accuracies)
@@ -79,7 +79,7 @@ def train(
         f1s_weighted = cross_val_score(pipeline, features, target, cv=cv, scoring='f1_weighted')
         f1_weighted = mean(f1s_weighted)
         mlflow.log_param("model_name", 'KNeighborsClassifier')
-        mlflow.log_param("use_scaler", use_scaler)
+        mlflow.log_param("feature_engineering", feature_engineering)
         mlflow.log_param("n_neighbors", n_neighbors)
         mlflow.log_param("weights", weights)
         mlflow.log_param("leaf_size", leaf_size)

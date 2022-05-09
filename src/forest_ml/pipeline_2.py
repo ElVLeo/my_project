@@ -1,16 +1,17 @@
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.feature_selection import SelectKBest, chi2
+from sklearn.preprocessing import StandardScaler
 
 
 def create_pipeline(
-    use_scaler: str, n_neighbors: int, weights: str, leaf_size: int, n_jobs: int
+    feature_engineering: str, n_neighbors: int, weights: str, leaf_size: int, n_jobs: int
 ) -> Pipeline:
     pipeline_steps = []
-    if use_scaler == 'StandardScaling':
+    if feature_engineering == 'Scaling':
         pipeline_steps.append(("scaler", StandardScaler()))
-    else:
-        pipeline_steps.append(("scaler", MinMaxScaler()))
+    if feature_engineering == 'Selecting':
+        pipeline_steps.append(("selector", SelectKBest(chi2, k=10)))
     pipeline_steps.append(
         (
             "classifier",

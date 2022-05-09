@@ -28,9 +28,9 @@ from .pipeline import create_pipeline
     show_default=True,
 )
 @click.option(
-    "--use-scaler",
-    default='StandardScaling',
-    type=click.Choice(['StandardScaling', 'MinMaxScaling']),
+    "--feature_engineering",
+    default=None,
+    type=click.Choice(['Scaling', 'Selecting']),
     show_default=True,
 )
 @click.option(
@@ -54,7 +54,7 @@ from .pipeline import create_pipeline
 def train(
     dataset_path: Path,
     save_model_path: Path,
-    use_scaler: str,
+    feature_engineering: str,
     n_estimators: int,
     criterion: str,
     max_depth: int,
@@ -63,7 +63,7 @@ def train(
         dataset_path,
     )
     with mlflow.start_run():
-        pipeline = create_pipeline(use_scaler, n_estimators, criterion, max_depth)
+        pipeline = create_pipeline(feature_engineering, n_estimators, criterion, max_depth)
         cv = KFold(n_splits=10)
         accuracies = cross_val_score(pipeline, features, target, cv=cv, scoring='accuracy')
         accuracy = mean(accuracies)
@@ -72,7 +72,7 @@ def train(
         f1s_weighted = cross_val_score(pipeline, features, target, cv=cv, scoring='f1_weighted')
         f1_weighted = mean(f1s_weighted)
         mlflow.log_param("model_name", 'RandomForestClassifier')
-        mlflow.log_param("use_scaler", use_scaler)
+        mlflow.log_param("feature_engineering", feature_engineering)
         mlflow.log_param("n_estimators", n_estimators)
         mlflow.log_param("criterion", criterion)
         mlflow.log_param("max_depth", max_depth)
