@@ -5,7 +5,7 @@ from sklearn.preprocessing import StandardScaler
 
 
 def create_pipeline(
-    feature_engineering: str, n_estimators: int, criterion: str, max_depth: int
+    feature_engineering: str, n_estimators: int, criterion: str, max_depth: int, random_state: int,
 ) -> Pipeline:
     pipeline_steps = []
     if feature_engineering == 'Scaling':
@@ -16,7 +16,7 @@ def create_pipeline(
         (
             "classifier",
             RandomForestClassifier(
-                n_estimators=n_estimators, criterion=criterion, max_depth=max_depth
+                n_estimators=n_estimators, criterion=criterion, max_depth=max_depth, random_state=random_state
             ),
         )
     )

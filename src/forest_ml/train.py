@@ -51,6 +51,12 @@ from .pipeline import create_pipeline
     type=int,
     show_default=True,
 )
+@click.option(
+    "--random_state",
+    default=None,
+    type=int,
+    show_default=True,
+)
 def train(
     dataset_path: Path,
     save_model_path: Path,
@@ -58,12 +64,13 @@ def train(
     n_estimators: int,
     criterion: str,
     max_depth: int,
+    random_state: int,
 ) -> None:
     features, target = get_dataset(
         dataset_path,
     )
     with mlflow.start_run():
-        pipeline = create_pipeline(feature_engineering, n_estimators, criterion, max_depth)
+        pipeline = create_pipeline(feature_engineering, n_estimators, criterion, max_depth, random_state)
         cv = KFold(n_splits=10)
         accuracies = cross_val_score(pipeline, features, target, cv=cv, scoring='accuracy')
         accuracy = mean(accuracies)
@@ -76,6 +83,7 @@ def train(
         mlflow.log_param("n_estimators", n_estimators)
         mlflow.log_param("criterion", criterion)
         mlflow.log_param("max_depth", max_depth)
+        mlflow.log_param("random_state", random_state)
         mlflow.log_metric("accuracy", accuracy)
         mlflow.log_metric("precision_micro", precision_micro)
         mlflow.log_metric("f1_weighted", f1_weighted)
