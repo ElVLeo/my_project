@@ -30,7 +30,7 @@ from .pipeline_2 import create_pipeline
 @click.option(
     "--feature_engineering",
     default=None,
-    type=click.Choice(['Scaling', 'Selecting']),
+    type=click.Choice(['PCA', 'Scaling']),
     show_default=True,
 )
 @click.option(

@@ -1,17 +1,17 @@
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
-from sklearn.feature_selection import SelectKBest, chi2
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.decomposition import PCA
 
 
 def create_pipeline(
     feature_engineering: str, n_estimators: int, criterion: str, max_depth: int, random_state: int,
 ) -> Pipeline:
     pipeline_steps = []
+    if feature_engineering == 'PCA':
+        pipeline_steps.append(("pca", PCA(n_components=30)))
     if feature_engineering == 'Scaling':
-        pipeline_steps.append(("scaler", StandardScaler()))
-    if feature_engineering == 'Selecting':
-        pipeline_steps.append(("selector", SelectKBest(chi2, k=10)))
+        pipeline_steps.append(("scaler", MinMaxScaler()))
     pipeline_steps.append(
         (
             "classifier",
