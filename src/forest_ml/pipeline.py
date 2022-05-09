@@ -1,14 +1,16 @@
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 
 def create_pipeline(
-    use_scaler: bool, n_estimators: int, criterion: str, max_depth: int
+    use_scaler: str, n_estimators: int, criterion: str, max_depth: int
 ) -> Pipeline:
     pipeline_steps = []
-    if use_scaler:
+    if use_scaler == 'StandardScaling':
         pipeline_steps.append(("scaler", StandardScaler()))
+    else:
+        pipeline_steps.append(("scaler", MinMaxScaler()))
     pipeline_steps.append(
         (
             "classifier",

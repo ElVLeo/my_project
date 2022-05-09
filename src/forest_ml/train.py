@@ -29,8 +29,8 @@ from .pipeline import create_pipeline
 )
 @click.option(
     "--use-scaler",
-    default=True,
-    type=bool,
+    default='StandardScaling',
+    type=click.Choice(['StandardScaling', 'MinMaxScaling']),
     show_default=True,
 )
 @click.option(
@@ -54,7 +54,7 @@ from .pipeline import create_pipeline
 def train(
     dataset_path: Path,
     save_model_path: Path,
-    use_scaler: bool,
+    use_scaler: str,
     n_estimators: int,
     criterion: str,
     max_depth: int,
