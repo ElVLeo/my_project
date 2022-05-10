@@ -64,7 +64,7 @@ poetry run train --grid_search=False --feature_engineering='Scaling' --n_estimat
 ```
 
 
-I chose accuracy like a metric for choosing the best model. You can see this metrics and parameters on the screen above. This model is the first.
+I chose accuracy like a metric for choosing the best model. You can see this metrics and parameters on the screen below. This model is the first.
 ![Image text](https://github.com/ElVLeo/machine_learning/blob/main/%D1%81%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D0%B4%D0%BB%D1%8F%20readme.PNG)
 
 Task 9. You can see on the screen the best parameters with metrics after NestedCV for every model. Sorry, I can't use a lot of parameters for GridSearchCV (because my computer not so good as I want), but I could write a script for this and learn how it works. 
