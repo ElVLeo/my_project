@@ -31,7 +31,7 @@ from .pipeline_2 import create_pipeline
 @click.option(
     "--feature_engineering",
     default=None,
-    type=click.Choice(['PCA', 'Scaling']),
+    type=click.Choice(["PCA", "Scaling"]),
     show_default=True,
 )
 @click.option(
@@ -42,8 +42,8 @@ from .pipeline_2 import create_pipeline
 )
 @click.option(
     "--weights",
-    default='uniform',
-    type=click.Choice(['uniform', 'distance']),
+    default="uniform",
+    type=click.Choice(["uniform", "distance"]),
     show_default=True,
 )
 @click.option(
@@ -78,29 +78,42 @@ def train(
         dataset_path,
     )
     with mlflow.start_run():
-        model = create_pipeline(feature_engineering, n_neighbors, weights, leaf_size, n_jobs)
+        model = create_pipeline(
+            feature_engineering, n_neighbors, weights, leaf_size, n_jobs
+        )
         if grid_search:
             cv_inner = KFold(n_splits=3)
-            space = {'classifier__n_neighbors': [5, 10],
-                     'classifier__weights': ('uniform', 'distance'),
-                     'classifier__leaf_size': [5, 10],
-                     'classifier__n_jobs': [None, -1]}
-            search = GridSearchCV(model, space, scoring='accuracy', n_jobs=1, cv=cv_inner, refit=True)
+            space = {
+                "classifier__n_neighbors": [5, 10],
+                "classifier__weights": ("uniform", "distance"),
+                "classifier__leaf_size": [5, 10],
+                "classifier__n_jobs": [None, -1],
+            }
+            search = GridSearchCV(
+                model, space, scoring="accuracy",
+                n_jobs=1, cv=cv_inner, refit=True
+            )
             model = search
             search.fit(features, target)
             parameters = search.best_params_
-            n_neighbors = parameters['classifier__n_neighbors']
-            weights = parameters['classifier__weights']
-            leaf_size = parameters['classifier__leaf_size']
-            n_jobs = parameters['classifier__n_jobs']
+            n_neighbors = parameters["classifier__n_neighbors"]
+            weights = parameters["classifier__weights"]
+            leaf_size = parameters["classifier__leaf_size"]
+            n_jobs = parameters["classifier__n_jobs"]
         cv_outer = KFold(n_splits=3)
-        accuracies = cross_val_score(model, features, target, cv=cv_outer, scoring='accuracy')
+        accuracies = cross_val_score(
+            model, features, target, cv=cv_outer, scoring="accuracy"
+        )
         accuracy = mean(accuracies)
-        precision_macros = cross_val_score(model, features, target, cv=cv_outer, scoring='precision_macro')
+        precision_macros = cross_val_score(
+            model, features, target, cv=cv_outer, scoring="precision_macro"
+        )
         precision_macro = mean(precision_macros)
-        f1s_weighted = cross_val_score(model, features, target, cv=cv_outer, scoring='f1_weighted')
+        f1s_weighted = cross_val_score(
+            model, features, target, cv=cv_outer, scoring="f1_weighted"
+        )
         f1_weighted = mean(f1s_weighted)
-        mlflow.log_param("model_name", 'KNeighborsClassifier')
+        mlflow.log_param("model_name", "KNeighborsClassifier")
         mlflow.log_param("feature_engineering", feature_engineering)
         mlflow.log_param("grid_search", grid_search)
         mlflow.log_param("n_neighbors", n_neighbors)
@@ -109,7 +122,7 @@ def train(
         mlflow.log_param("n_jobs", n_jobs)
         mlflow.log_metric("accuracy", accuracy)
         mlflow.log_metric("precision_macro", precision_macro)
-        mlflow.log_metric("f1_weighted", f1_weighted)
+        mlflow.log_metric("f1_weighted",f1_weighted)
         click.echo(f"Accuracy: {accuracy}.")
         click.echo(f"Precision_macro: {precision_macro}.")
         click.echo(f"f1_weighted: {f1_weighted}.")
