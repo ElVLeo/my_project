@@ -7,6 +7,7 @@ import mlflow
 import mlflow.sklearn
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import KFold
+from sklearn.model_selection import GridSearchCV
 
 from .data import get_dataset
 from .pipeline import create_pipeline
@@ -57,9 +58,16 @@ from .pipeline import create_pipeline
     type=int,
     show_default=True,
 )
+@click.option(
+    "--grid_search",
+    default=True,
+    type=bool,
+    show_default=True,
+)
 def train(
     dataset_path: Path,
     save_model_path: Path,
+    grid_search: bool,
     feature_engineering: str,
     n_estimators: int,
     criterion: str,
@@ -70,16 +78,29 @@ def train(
         dataset_path,
     )
     with mlflow.start_run():
-        pipeline = create_pipeline(feature_engineering, n_estimators, criterion, max_depth, random_state)
-        cv = KFold(n_splits=10)
-        accuracies = cross_val_score(pipeline, features, target, cv=cv, scoring='accuracy')
+        model = create_pipeline(feature_engineering, n_estimators, criterion, max_depth, random_state)
+        if grid_search:
+            cv_inner = KFold(n_splits=5)
+            space = {'classifier__n_estimators': [3, 8, 10],
+                     'classifier__criterion': ('gini', 'entropy'),
+                     'classifier__max_depth': [None, 10, 20]}
+            search = GridSearchCV(model, space, scoring='accuracy', n_jobs=1, cv=cv_inner, refit=True)
+            model = search
+            search.fit(features, target)
+            parameters = search.best_params_
+            n_estimators = parameters['classifier__n_estimators']
+            criterion = parameters['classifier__criterion']
+            max_depth = parameters['classifier__max_depth']
+        cv_outer = KFold(n_splits=5)
+        accuracies = cross_val_score(model, features, target, cv=cv_outer, scoring='accuracy')
         accuracy = mean(accuracies)
-        precision_macros = cross_val_score(pipeline, features, target, cv=cv, scoring='precision_macro')
+        precision_macros = cross_val_score(model, features, target, cv=cv_outer, scoring='precision_macro')
         precision_macro = mean(precision_macros)
-        f1s_weighted = cross_val_score(pipeline, features, target, cv=cv, scoring='f1_weighted')
+        f1s_weighted = cross_val_score(model, features, target, cv=cv_outer, scoring='f1_weighted')
         f1_weighted = mean(f1s_weighted)
         mlflow.log_param("model_name", 'RandomForestClassifier')
         mlflow.log_param("feature_engineering", feature_engineering)
+        mlflow.log_param("grid_search", grid_search)
         mlflow.log_param("n_estimators", n_estimators)
         mlflow.log_param("criterion", criterion)
         mlflow.log_param("max_depth", max_depth)
@@ -90,5 +111,5 @@ def train(
         click.echo(f"Accuracy: {accuracy}.")
         click.echo(f"Precision_macro: {precision_macro}.")
         click.echo(f"f1_weighted: {f1_weighted}.")
-        dump(pipeline, save_model_path)
+        dump(model, save_model_path)
         click.echo(f"Model is saved to {save_model_path}.")
