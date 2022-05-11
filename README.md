@@ -50,12 +50,12 @@ Format your code with [black](https://github.com/psf/black) by using either nox 
 nox -[r]s black
 poetry run black src tests noxfile.py
 ```
-Format your code with [flake8](https://pypi.org/project/flake8/) by using either nox or poetry:
+lint your code with [flake8](https://pypi.org/project/flake8/) by using either nox or poetry:
 ```
 nox -[r]s flake8
 poetry run flake8 src tests noxfile.py
 ```
-Format your code with [MyPy](https://mypy.readthedocs.io/en/stable/) by using either nox or poetry:
+Type annotate your code with [MyPy](https://mypy.readthedocs.io/en/stable/) by using either nox or poetry:
 ```
 nox -[r]s mypy
 poetry run mypy src tests noxfile.py
