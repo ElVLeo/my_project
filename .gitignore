@@ -3,3 +3,4 @@ data
 mlruns
 .mypy_cache
 .pytest_cache
+.nox
