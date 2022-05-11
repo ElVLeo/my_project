@@ -1,6 +1,5 @@
 from click.testing import CliRunner
 import pytest
-
 from forest_ml.train import train
 
 
@@ -32,7 +31,7 @@ def test_error_for_grid_search(
         train,
         [
             "--grid_search",
-            False,
+            'False',
         ],
     )
     assert result.exit_code == 0
