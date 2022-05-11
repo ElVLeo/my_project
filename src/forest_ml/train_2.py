@@ -122,7 +122,7 @@ def train(
         mlflow.log_param("n_jobs", n_jobs)
         mlflow.log_metric("accuracy", accuracy)
         mlflow.log_metric("precision_macro", precision_macro)
-        mlflow.log_metric("f1_weighted",f1_weighted)
+        mlflow.log_metric("f1_weighted", f1_weighted)
         click.echo(f"Accuracy: {accuracy}.")
         click.echo(f"Precision_macro: {precision_macro}.")
         click.echo(f"f1_weighted: {f1_weighted}.")

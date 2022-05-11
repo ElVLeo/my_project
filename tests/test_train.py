@@ -23,6 +23,7 @@ def test_error_for_criterion(
     assert result.exit_code == 2
     assert "Invalid value for '--criterion'" in result.output
 
+
 def test_error_for_grid_search(
     runner: CliRunner
 ) -> None:
@@ -35,5 +36,3 @@ def test_error_for_grid_search(
         ],
     )
     assert result.exit_code == 0
-
-
