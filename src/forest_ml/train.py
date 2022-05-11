@@ -79,8 +79,7 @@ def train(
     )
     with mlflow.start_run():
         model = create_pipeline(
-            feature_engineering, n_estimators,
-            criterion, max_depth, random_state
+            feature_engineering, n_estimators, criterion, max_depth, random_state
         )
         if grid_search:
             cv_inner = KFold(n_splits=5)
@@ -90,8 +89,7 @@ def train(
                 "classifier__max_depth": [None, 10, 20],
             }
             search = GridSearchCV(
-                model, space, scoring="accuracy",
-                n_jobs=1, cv=cv_inner, refit=True
+                model, space, scoring="accuracy", n_jobs=1, cv=cv_inner, refit=True
             )
             model = search
             search.fit(features, target)

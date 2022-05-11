@@ -90,8 +90,7 @@ def train(
                 "classifier__n_jobs": [None, -1],
             }
             search = GridSearchCV(
-                model, space, scoring="accuracy",
-                n_jobs=1, cv=cv_inner, refit=True
+                model, space, scoring="accuracy", n_jobs=1, cv=cv_inner, refit=True
             )
             model = search
             search.fit(features, target)
