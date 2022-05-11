@@ -24,5 +24,17 @@ def test_error_for_criterion(
     assert result.exit_code == 2
     assert "Invalid value for '--criterion'" in result.output
 
+def test_error_for_grid_search(
+    runner: CliRunner
+) -> None:
+    """It is valid when grid_search is False."""
+    result = runner.invoke(
+        train,
+        [
+            "--grid_search",
+            False,
+        ],
+    )
+    assert result.exit_code == 0
 
 
