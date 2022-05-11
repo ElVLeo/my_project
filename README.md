@@ -50,10 +50,15 @@ Format your code with [black](https://github.com/psf/black) by using either nox 
 nox -[r]s black
 poetry run black src tests noxfile.py
 ```
-Format your code with [flake8](https://github.com/psf/black) by using either nox or poetry:
+lint your code with [flake8](https://pypi.org/project/flake8/) by using either nox or poetry:
 ```
 nox -[r]s flake8
 poetry run flake8 src tests noxfile.py
+```
+Type annotate your code with [MyPy](https://mypy.readthedocs.io/en/stable/) by using either nox or poetry:
+```
+nox -[r]s mypy
+poetry run mypy src tests noxfile.py
 ```
 
 ## My results
@@ -67,9 +72,19 @@ poetry run train --grid_search=False --feature_engineering='Scaling' --n_estimat
 I chose accuracy like a metric for choosing the best model. You can see this metrics and parameters on the screen below. This model is the first.
 ![Image text](https://github.com/ElVLeo/machine_learning/blob/main/%D1%81%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D0%B4%D0%BB%D1%8F%20readme.PNG)
 
-Task 9. You can see on the screen the best parameters with metrics after NestedCV for every model. Sorry, I can't use a lot of parameters for GridSearchCV (because my computer not so good as I want), but I could write a script for this and learn how it works. 
+Task 9. You can see on the screen the best parameters with metrics after NestedCV for every model. Sorry, I can't use a lot of parameters for GridSearchCV (because my computer is not so good as I want), but I could write a script for this and have learnt how it works. 
 ![Image text](https://github.com/ElVLeo/machine_learning/blob/main/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D0%B4%D0%BB%D1%8F%20gridsearch.PNG)
 
-Task 12. A screenshot that linting and formatting are passed on example src
-![Image text](https://github.com/ElVLeo/machine_learning/blob/main/flake8.PNG)
-![Image text](https://github.com/ElVLeo/machine_learning/blob/main/black.PNG)
+Task 12. The screenshots that linting and formatting are passed
+
+![Image text](https://github.com/ElVLeo/machine_learning/blob/main/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20black%202.PNG)
+
+![Image text](https://github.com/ElVLeo/machine_learning/blob/main/flake8.jpg)
+
+Task 13. A screenshot of mypy report
+
+![Image text](https://github.com/ElVLeo/machine_learning/blob/main/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20mypy.PNG)
+
+Task 14. A single screenshot for all sessions
+
+![Image text](https://github.com/ElVLeo/machine_learning/blob/main/nox.PNG)
