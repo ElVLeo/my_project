@@ -76,11 +76,15 @@ Task 9. You can see on the screen the best parameters with metrics after NestedC
 ![Image text](https://github.com/ElVLeo/machine_learning/blob/main/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D0%B4%D0%BB%D1%8F%20gridsearch.PNG)
 
 Task 12. The screenshots that linting and formatting are passed
+
 ![Image text](https://github.com/ElVLeo/machine_learning/blob/main/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20black%202.PNG)
+
 ![Image text](https://github.com/ElVLeo/machine_learning/blob/main/flake8.jpg)
 
 Task 13. A screenshot of mypy report
+
 ![Image text](https://github.com/ElVLeo/machine_learning/blob/main/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20mypy.PNG)
 
 Task 14. A single screenshot for all sessions
+
 ![Image text](https://github.com/ElVLeo/machine_learning/blob/main/nox.PNG)
