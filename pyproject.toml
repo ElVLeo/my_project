@@ -17,6 +17,7 @@ numpy = "^1.22.3"
 flake8 = "^4.0.1"
 black = "^22.3.0"
 pytest = "^7.1.2"
+mypy = "^0.950"
 
 [tool.poetry.scripts]
 eda = "forest_ml.profiling:profile"
