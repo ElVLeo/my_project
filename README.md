@@ -27,7 +27,7 @@ poetry run train_2 --help
 ```sh
 poetry run mlflow ui
 ```
-8. Run eda to form and see EDA (pandas-profiling in html report):
+8. Run eda to form and see EDA (pandas-profiling in html report, you also can get this html report in repository):
 ```sh
 poetry run eda
 ```
